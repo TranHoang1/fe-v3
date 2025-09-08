@@ -1,0 +1,45 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 32px;
+  background-color: #3c3c3c;
+  color: #cccccc;
+  padding: 0 8px;
+  font-size: 13px;
+  border-bottom: 1px solid #252526;
+}
+
+.menuBar {
+  display: flex;
+}
+
+.menuItem {
+  padding: 0 8px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background-color: #505050;
+}
+
+.windowControls {
+  display: flex;
+  align-items: center;
+}
+
+.sidebarToggle {
+  background: none;
+  border: none;
+  color: #cccccc;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.sidebarToggle:hover {
+  background-color: #505050;
+}

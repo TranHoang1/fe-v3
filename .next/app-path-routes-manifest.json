@@ -1,0 +1,21 @@
+{
+  "/favicon.ico/route": "/favicon.ico",
+  "/_not-found/page": "/_not-found",
+  "/audit-log/page": "/audit-log",
+  "/event-locations/page": "/event-locations",
+  "/events/page": "/events",
+  "/golden-hours/page": "/golden-hours",
+  "/import-history/page": "/import-history",
+  "/login/page": "/login",
+  "/page": "/",
+  "/participants/page": "/participants",
+  "/provinces/page": "/provinces",
+  "/regions/page": "/regions",
+  "/reward-distribute/page": "/reward-distribute",
+  "/rewards/page": "/rewards",
+  "/roles/page": "/roles",
+  "/spin-history/page": "/spin-history",
+  "/users/page": "/users",
+  "/statistics/page": "/statistics",
+  "/wheel/page": "/wheel"
+}

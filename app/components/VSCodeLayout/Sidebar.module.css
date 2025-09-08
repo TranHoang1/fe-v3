@@ -1,0 +1,124 @@
+.sidebar {
+  display: flex;
+  height: 100%;
+  background-color: #252526;
+}
+
+.collapsed {
+  width: 48px;
+}
+
+.activityBar {
+  width: 48px;
+  background-color: #333333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.navItem {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.navItem:hover {
+  background-color: #2a2d2e;
+}
+
+.active {
+  background-color: #37373d;
+}
+
+.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background-color: #007acc;
+}
+
+.icon {
+  opacity: 0.7;
+}
+
+.active .icon {
+  opacity: 1;
+}
+
+.sidePanel {
+  width: 240px;
+  background-color: #252526;
+  border-right: 1px solid #1e1e1e;
+  display: flex;
+  flex-direction: column;
+}
+
+.panelHeader {
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #bbbbbb;
+  background-color: #252526;
+  border-bottom: 1px solid #1e1e1e;
+}
+
+.panelContent {
+  flex: 1;
+  overflow: auto;
+}
+
+.explorerItems {
+  padding: 8px 0;
+}
+
+.sectionHeader {
+  padding: 6px 16px 6px 16px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #bbbbbb;
+  margin-top: 8px;
+}
+
+.entityItem {
+  padding: 4px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.entityItem:hover {
+  background-color: #2a2d2e;
+}
+
+.entityIcon {
+  opacity: 0.7;
+}
+
+.folderItem, .fileItem {
+  padding: 4px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
+.folderItem:hover, .fileItem:hover {
+  background-color: #2a2d2e;
+}
+
+.divider {
+  width: 32px;
+  height: 1px;
+  background-color: #555555;
+  margin: 10px 0;
+}

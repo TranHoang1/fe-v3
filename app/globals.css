@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+:root {
+  --vscode-background: #1e1e1e;
+  --vscode-foreground: #cccccc;
+  --vscode-sidebar-background: #252526;
+  --vscode-activity-bar-background: #333333;
+  --vscode-toolbar-background: #3c3c3c;
+  --vscode-border-color: #1e1e1e;
+  --vscode-highlight-color: #007acc;
+  --vscode-hover-background: #2a2d2e;
+  --vscode-active-background: #37373d;
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 30, 30, 30;
+}
+
+/* Remove problematic theme directive */
+:root {
+  --color-background: var(--vscode-background);
+  --color-foreground: var(--vscode-foreground);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  background: rgb(var(--background-rgb));
+  color: rgb(var(--foreground-rgb));
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* VS Code like scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f4f4f;
+}
+
+/* Component styles */
+@layer components {
+  .btn-primary {
+    @apply bg-[#007acc] text-white px-3 py-2 rounded hover:bg-[#0069ac] transition-colors;
+  }
+  
+  .card {
+    @apply bg-[#252526] border border-[#3c3c3c] rounded-lg p-5 shadow-lg;
+  }
+}
+
+/* Add these classes to your global CSS file */
+
+.data-table-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.data-table-wrapper {
+  width: 100%;
+}
+
+.data-table {
+  width: 100%;
+  min-width: 800px; /* Ensures minimum width for small screens */
+}
+
+.blocking-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+}
+
+.editing-row {
+  position: relative;
+  z-index: 50;
+}

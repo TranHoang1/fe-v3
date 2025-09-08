@@ -1,0 +1,21 @@
+{
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/audit-log/page": "app/audit-log/page.js",
+  "/event-locations/page": "app/event-locations/page.js",
+  "/events/page": "app/events/page.js",
+  "/golden-hours/page": "app/golden-hours/page.js",
+  "/import-history/page": "app/import-history/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/participants/page": "app/participants/page.js",
+  "/provinces/page": "app/provinces/page.js",
+  "/regions/page": "app/regions/page.js",
+  "/reward-distribute/page": "app/reward-distribute/page.js",
+  "/rewards/page": "app/rewards/page.js",
+  "/roles/page": "app/roles/page.js",
+  "/spin-history/page": "app/spin-history/page.js",
+  "/users/page": "app/users/page.js",
+  "/statistics/page": "app/statistics/page.js",
+  "/wheel/page": "app/wheel/page.js"
+}
