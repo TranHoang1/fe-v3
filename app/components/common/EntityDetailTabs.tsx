@@ -873,7 +873,7 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                                     const formData = new FormData();
                                     formData.append('file', file);
 
-                                    const response = await fetch(`${apiConfig.baseUrl}/upload/media`, {
+                                    const response = await fetch(`${apiConfig.baseUrl}/media`, {
                                         method: 'POST',
                                         headers: {
                                             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -923,11 +923,35 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                     throw new Error('Failed to delete image');
                 }
 
-                // After successful deletion, refresh the page
-                window.location.reload();
+                // Show success toast instead of refreshing the page
+                // Also update the data to remove the media reference
+                if (data.media?.id === mediaToDelete) {
+                    data.media = null;
+                    data.mediaId = null;
+                }
+
+                // Import the toast from the UI components
+                const { toast } = require('@/app/components/ui/use-toast');
+
+                // Show success toast notification
+                toast({
+                    title: 'Image deleted successfully',
+                    description: 'The image has been removed from this reward',
+                    variant: 'success',
+                    duration: 3000
+                });
+
             } catch (error) {
                 console.error('Error deleting image:', error);
-                alert('Failed to delete image. Please try again.');
+
+                // Show error toast instead of alert
+                const { toast } = require('@/app/components/ui/use-toast');
+                toast({
+                    title: 'Failed to delete image',
+                    description: 'Please try again later',
+                    variant: 'destructive',
+                    duration: 4000
+                });
             } finally {
                 // Close the modal
                 setIsDeleteModalOpen(false);
@@ -940,6 +964,32 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                 <h2 className="text-lg font-medium text-white border-b border-[#3c3c3c] pb-2">
                     {title} {isEditing && <span className="text-[#007acc] ml-2">(Edit Mode)</span>}
                 </h2>
+
+                {/* Delete Confirmation Modal */}
+                {isDeleteModalOpen && (
+                    <Modal isOpen={isDeleteModalOpen} onCloseAction={() => setIsDeleteModalOpen(false)}>
+                        <div className="p-6">
+                            <h3 className="text-lg font-medium mb-4">Confirm Delete</h3>
+                            <p className="mb-4">Are you sure you want to delete this image? This action cannot be undone.</p>
+                            <ModalFooter>
+                                <div className="flex justify-end space-x-3">
+                                    <button
+                                        className="px-4 py-2 bg-[#3c3c3c] text-white rounded hover:bg-[#4c4c4c]"
+                                        onClick={() => setIsDeleteModalOpen(false)}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                        onClick={handleDeleteImage}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </ModalFooter>
+                        </div>
+                    </Modal>
+                )}
 
                 {/* Add Image Section for Rewards */}
                 {imageSection}
