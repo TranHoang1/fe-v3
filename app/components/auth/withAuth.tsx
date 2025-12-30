@@ -16,8 +16,8 @@ export default function withAuth<P extends object>(
       if (!isAuthenticated()) {
         // Get current path for redirect after login
         const currentPath = window.location.pathname;
-        const redirectPath = currentPath.replace(/^\/admin/, '');
-        
+        const redirectPath = currentPath.replace(/^\/luckydraw\/admin/, '');
+
         // Redirect to login
         router.push(`/login?redirectTo=${encodeURIComponent(redirectPath)}`);
       } else {

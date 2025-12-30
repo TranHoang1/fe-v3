@@ -11,6 +11,7 @@ export interface FilterRequest {
     filterType: FilterType;
     minValue: string;
     maxValue: string;
+    value: Object;
 }
 
 export interface SearchRequest {

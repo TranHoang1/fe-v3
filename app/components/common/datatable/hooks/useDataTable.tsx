@@ -276,7 +276,13 @@ export const useDataTable = ({
             default: filterType = FilterType.EQUALS;
           }
 
-          return { field, filterType, minValue, maxValue };
+          return {
+            field,
+            filterType,
+            minValue,
+            maxValue,
+            value: filterState.value  // Add the value property required by FilterRequest
+          };
         });
 
       // Ensure the request is properly formatted with all required fields

@@ -20,8 +20,8 @@ function LoginContent() {
 
   // Get redirect destination if any
   const redirectParam = searchParams?.get('redirectTo') || '/';
-  const redirectTo = redirectParam.startsWith('/') && !redirectParam.startsWith('/admin') 
-    ? `/admin${redirectParam}` 
+  const redirectTo = redirectParam.startsWith('/') && !redirectParam.startsWith('/luckydraw/admin')
+    ? `/luckydraw/admin${redirectParam}`
     : redirectParam;
 
   const handleSubmit = async (e: React.FormEvent) => {

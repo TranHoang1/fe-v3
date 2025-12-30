@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
-  basePath: '/luckydraw',
-  assetPrefix: '/luckydraw'
+  basePath: '/luckydraw/admin',
+  assetPrefix: '/luckydraw/admin'
 };
 
 export default nextConfig;

@@ -3,12 +3,11 @@ import {
     TableAction,
     TableActionRequest,
     TableActionResponse,
-    FilterRequest,
-    TableRow,
     TableFetchResponse,
+    TableRow,
     UploadFile
 } from './interfaces';
-import {apiConfig, entityApiEndpoints, objectTypeToEndpoint, getApiUrl} from './tableService';
+import {apiConfig, getApiUrl, objectTypeToEndpoint} from './tableService';
 
 /**
  * Service for handling table action operations
@@ -78,7 +77,8 @@ async function performTableAction(
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                ...apiConfig.headers
+                ...apiConfig.headers,
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
             },
             body: JSON.stringify(request)
         });
@@ -104,13 +104,29 @@ async function performTableAction(
             // Create the download URL
             const downloadUrl = getApiUrl(`table-data/download/${fileName}?token=${downloadToken}`);
 
-            // Create a temporary link and trigger download
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Fetch the file with Authorization header
+            const downloadResponse = await fetch(downloadUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                }
+            });
+
+            if (downloadResponse.ok) {
+                const blob = await downloadResponse.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+
+                // Create a temporary link and trigger download
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Clean up the blob URL
+                window.URL.revokeObjectURL(blobUrl);
+            }
         }
 
         return {
@@ -226,6 +242,7 @@ export const exportTableData = async (objectType: ObjectType, data: TableFetchRe
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
             },
             body: JSON.stringify(payload),
         });
@@ -292,7 +309,12 @@ const pollForFileCompletion = async (
             await new Promise(resolve => setTimeout(resolve, initialDelay));
 
             // Check file status with a HEAD request first to avoid partial downloads
-            const headResponse = await fetch(url, {method: 'HEAD'});
+            const headResponse = await fetch(url, {
+                method: 'HEAD',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
             console.log(`HEAD request status: ${headResponse.status}`);
 
             // Log headers for debugging without using iterator spread
@@ -367,7 +389,8 @@ const triggerFileDownload = async (url: string, fileName: string): Promise<boole
             fetch(url, {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/octet-stream'
+                    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/octet-stream',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             })
                 .then(response => {
@@ -641,7 +664,8 @@ export const importTableData = async function importTableData(
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
-                ...apiConfig.headers
+                ...apiConfig.headers,
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(payload)
         });

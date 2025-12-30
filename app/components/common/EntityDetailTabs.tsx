@@ -1,7 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
-import {useEffect, useMemo} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {
     DataObject,
     FilterType,
@@ -15,10 +14,10 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
 import DataTable from './DataTable';
 import {ColumnDef} from './datatable/utils/tableUtils';
 import {apiConfig, fetchTableData} from '@/app/lib/api/tableService';
-import {AlertCircle, Loader, Save, Trash2, X} from 'lucide-react';
+import {AlertCircle, Loader, Save, X} from 'lucide-react';
 import {entityRelations} from '@/app/lib/api/entityRelations';
 import {ImageDetailField} from './DetailFields/ImageDetailField';
-import { Modal, ModalBody, ModalFooter } from '@/components/ui/modal';
+import {Modal, ModalFooter} from '@/components/ui/modal';
 
 export interface EntityDetailTabsProps {
     tableRow: TabTableRow;
@@ -68,7 +67,7 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
             [ObjectType.Event]: ['eventLocations', 'rewards'],
             [ObjectType.Participant]: ['participantEvents', 'spinHistory', 'province'],
             [ObjectType.Reward]: [],
-            [ObjectType.EventLocation]: ['participants'],
+            [ObjectType.EventLocation]: ['participants', 'rewardEvents'],
             [ObjectType.GoldenHour]: ['spinHistory', 'event'],
             [ObjectType.SpinHistory]: ['participant', 'reward', 'goldenHour'],
             [ObjectType.Province]: ['participants', 'eventLocations'],
@@ -194,7 +193,8 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                                 field: 'id',
                                 filterType: FilterType.EQUALS,
                                 minValue: String(rowData[relation.idField]),
-                                maxValue: String(rowData[relation.idField])
+                                maxValue: String(rowData[relation.idField]),
+                                value: rowData[relation.idField]
                             }
                         ];
                     }
@@ -234,7 +234,8 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                                             field: 'id',
                                             filterType: FilterType.EQUALS,
                                             minValue: String(existingId),
-                                            maxValue: String(existingId)
+                                            maxValue: String(existingId),
+                                            value: existingId
                                         }
                                     ],
                                     search: {} as Record<ObjectType, DataObject>,
@@ -434,7 +435,8 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
             'reward': ObjectType.Reward, // Single reward (many-to-one relationship)
             'user': ObjectType.User, // Single user (many-to-one relationship)
             'jobImportHistoryDetail': ObjectType.JobImportHistoryDetail,
-            'dailyRewardDistribution': ObjectType.DailyRewardDistribution
+            'dailyRewardDistribution': ObjectType.DailyRewardDistribution,
+            'rewardEvents': ObjectType.RewardEvent
         };
 
         return mappings[tabName.toUpperCase()] || mappings[tabName];
@@ -486,7 +488,7 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                         // Use filter to find related entities
                         const relationshipField = getOneToManyRelationshipField(entityType, activeTab);
                         console.log("🔍 DEBUG: Using filter for one-to-many relationship. Field:", relationshipField, "Value:", rowData.id);
-
+                        debugger;
                         request = {
                             page: 0,
                             size: 20,
@@ -495,8 +497,9 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                                 {
                                     field: relationshipField,
                                     filterType: FilterType.EQUALS,
-                                    minValue: String(rowData.id),
-                                    maxValue: String(rowData.id)
+                                    minValue: "",
+                                    maxValue: "",
+                                    value: rowData.id
                                 }
                             ] : [],
                             search: {} as Record<ObjectType, DataObject>,
@@ -567,7 +570,8 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                         field: 'id',
                         filterType: FilterType.EQUALS,
                         minValue: String(relatedObjectId),
-                        maxValue: String(relatedObjectId)
+                        maxValue: String(relatedObjectId),
+                        value: relatedObjectId
                     }
                 ],
                 search: {} as Record<ObjectType, DataObject>,
@@ -931,7 +935,7 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                 }
 
                 // Import the toast from the UI components
-                const { toast } = require('@/app/components/ui/use-toast');
+                const {toast} = require('@/app/components/ui/use-toast');
 
                 // Show success toast notification
                 toast({
@@ -945,7 +949,7 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                 console.error('Error deleting image:', error);
 
                 // Show error toast instead of alert
-                const { toast } = require('@/app/components/ui/use-toast');
+                const {toast} = require('@/app/components/ui/use-toast');
                 toast({
                     title: 'Failed to delete image',
                     description: 'Please try again later',
@@ -970,7 +974,8 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
                     <Modal isOpen={isDeleteModalOpen} onCloseAction={() => setIsDeleteModalOpen(false)}>
                         <div className="p-6">
                             <h3 className="text-lg font-medium mb-4">Confirm Delete</h3>
-                            <p className="mb-4">Are you sure you want to delete this image? This action cannot be undone.</p>
+                            <p className="mb-4">Are you sure you want to delete this image? This action cannot be
+                                undone.</p>
                             <ModalFooter>
                                 <div className="flex justify-end space-x-3">
                                     <button
@@ -1692,7 +1697,7 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
 
             // For child entities, they typically have many-to-one relationships (not one-to-many)
             // EventLocation has: event (many-to-one), region (many-to-one), but participants (one-to-many)
-            [ObjectType.EventLocation]: ['participants'], // EventLocation can have many participants
+            [ObjectType.EventLocation]: ['participants', 'rewardEvents'], // EventLocation can have many participants
             [ObjectType.Reward]: [], // Reward doesn't have one-to-many relationships
             [ObjectType.GoldenHour]: [], // GoldenHour doesn't have one-to-many relationships
             [ObjectType.SpinHistory]: [], // SpinHistory doesn't have one-to-many relationships
@@ -1759,6 +1764,9 @@ export const EntityDetailTabs: React.FC<EntityDetailTabsProps> = ({
             },
             'dailyRewardDistribution': {
                 [ObjectType.RewardDistribute]: 'rewardDistribute.id' // Event Locations for specific Event
+            },
+            'rewardEvents': {
+                [ObjectType.EventLocation]: 'eventLocation.id' // Event Locations for specific Event
             }
         };
         return fieldMappings[relatedTabName]?.[parentEntityType] || null;

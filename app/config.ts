@@ -4,7 +4,7 @@
  */
 
 // Base API URL for backend services
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8094/api';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8094/luckydraw/api';
 
 // Authentication endpoints
 export const AUTH_ENDPOINTS = {

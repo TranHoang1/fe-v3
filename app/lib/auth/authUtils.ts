@@ -51,7 +51,7 @@ export const logout = () => {
   localStorage.removeItem('tokenExpires');
   
   // Force a hard redirect to login page
-  window.location.href = '/admin/login/';
+  window.location.href = '/luckydraw/admin/login/';
 };
 
 /**
@@ -62,7 +62,7 @@ export const redirectToLogin = (currentPath: string = window.location.pathname) 
   // Set a session storage flag to indicate we're redirecting
   sessionStorage.setItem('redirecting', 'true');
   // Force a hard redirect
-  window.location.href = `/admin/login/`;
+  window.location.href = `/luckydraw/admin/login/`;
   }
 };
 
@@ -71,5 +71,5 @@ export const redirectToLogin = (currentPath: string = window.location.pathname) 
  * All paths require authentication except login
  */
 export const requiresAuth = (path: string): boolean => {
-  return !path.includes('/admin/login/');
+  return !path.includes('/luckydraw/admin/login/');
 };

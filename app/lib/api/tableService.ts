@@ -18,7 +18,7 @@ const token = localStorage.getItem('token');
 // Configuration for API endpoints
 export const apiConfig = {
     // Base URL for API requests - ensure it matches the provided endpoint
-    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8094/api',
+    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8094/luckydraw/api',
 
     // Set to false to use real API by default
     useMockData: process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true' || false,

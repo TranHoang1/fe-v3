@@ -18,11 +18,11 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     
     // Check if user is authenticated
     if (!isAuthenticated()) {
-      const redirectPath = currentPath.replace(/^\/admin/, '');
+      const redirectPath = currentPath.replace(/^\/luckydraw\/admin/, '');
       // Don't redirect if already on login page
       if (!currentPath.includes('/login')) {
       setIsLoading(false);
-        // Remove the /admin prefix for the redirectTo parameter
+        // Remove the /luckydraw/admin prefix for the redirectTo parameter
         router.push(`/login?redirectTo=${redirectPath}`);
       } else {
         router.push(`/login`);
